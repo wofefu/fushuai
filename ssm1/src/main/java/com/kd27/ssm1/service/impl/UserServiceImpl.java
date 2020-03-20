@@ -1,9 +1,6 @@
 package com.kd27.ssm1.service.impl;
 
-import com.kd27.ssm1.dao.UserMapper;
-import com.kd27.ssm1.entity.User;
 import com.kd27.ssm1.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;

@@ -1,0 +1,12 @@
+
+
+四个注解
+一个MyContainer核心IOC容器类
+一个CoreServlet 核心Servlet类
+一个视图数据模型MyMV类
+总共260行代码
+
+完成了一个乞丐版Spring+SpringMVC的框架
+
+学习成本：我们要灵活地运行 反射 这一java高级特性
+         我们要理解面向接口编程和如何解耦
