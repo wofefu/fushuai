@@ -1,0 +1,7 @@
+-- auto Generated on 2020-02-21
+-- DROP TABLE IF EXISTS mybatis;
+CREATE TABLE mybatis(
+	id INT (11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+	`name` VARCHAR (50) NOT NULL DEFAULT '' COMMENT 'name',
+	PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'mybatis';

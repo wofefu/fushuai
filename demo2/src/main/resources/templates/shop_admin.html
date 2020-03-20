@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>门店经理可以进入的门店管理页面</h1>
+<h2>该页面可能包含 创建门店、为门店添加销售员、查看门店销售记录等功能</h2>
+<h3>您好,<span th:text="${session.user.username}"></span></h3>
+
+<span th:if="${shops.size()!=0}">以下是您创建的门店，您可以点击进入门店管理。</span><br>
+
+
+
+<div th:each="shop:${shops}">
+    <span th:text="${shop.name}" th:onclick="'goRead('+${shop.id}+','+${session.user.id}+')'">店铺名称</span>
+</div>
+
+
+<span th:if="${shops.size()==0}">您当前没有店铺，可以</span>
+<span th:if="${shops.size()!=0}">再</span><a href="/addShop">创建一个新门店</a>
+</body>
+
+<script>
+    function goRead(sId,uId){
+        location.href= "/user/"+uId+"/shop/"+sId
+    }
+
+</script>
+</html>

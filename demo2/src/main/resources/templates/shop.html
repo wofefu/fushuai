@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>
+    欢迎来到 <span th:text="${shop.name}"></span>
+    <button th:onclick="'add('+${session.user.id}+','+${shop.id}+')'">添加库存</button>
+    <br>
+
+
+</h1>
+<h2>当前库存</h2>
+
+<!--进入此页面时 能够展示该门店的库存 和 一些操作按钮 意味着 controller需要添加对应的model数据-->
+<form action="">
+    商品名称<input type="text" name="name"> 分类 <input type="text" name="type"> <input type="submit" value="查询">
+</form>
+
+<table>
+    <tr>
+        <th>商品id</th>
+        <th>商品名称</th>
+        <th>建议售价</th>
+        <th>操作</th>
+    </tr>
+<!--            /*@thymesVar id="g" type="com.example.demo.entity.Goods"*/-->
+    <tr th:each="g:${goodsInfo.getList()}">
+        <td th:text="${g.id}"></td>
+        <td th:text="${g.name}"></td>
+        <td th:text="${g.salePrice}"></td>
+        <td>
+            <button>添加出库单</button>
+        </td>
+    </tr>
+
+</table>
+
+<div th:text="${'当前第'+goodsInfo.pageNum+'页'}"></div>
+<div th:text="${'共'+goodsInfo.getPages()+'页'}"></div>
+</body>
+
+<script>
+
+    function add(uId, shopId) {
+        location.href = "/user/" + uId + "/shop/" + shopId + "/addGoods"
+    }
+</script>
+</html>

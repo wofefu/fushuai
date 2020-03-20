@@ -1,0 +1,41 @@
+1、如果是通过Spring initializr 创建的工程
+可以快速勾选依赖 如果没勾选就手动添加
+
+SpringBoot Mybatis web工程需要的依赖有
+
+web支持
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>2.2.5.RELEASE</version>
+</dependency>
+
+thymeleaf模板
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    <version>2.2.5.RELEASE</version>
+</dependency>
+
+mybatis starter
+<!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>2.1.1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.19</version>
+</dependency>
+
+
+2、没有繁琐的配置文件 约定大于配置 如果需要进行一些必要的配置，统一在application.properties/yml进行配置
+SpringBoot+mybatis项目 必配哪些？
+1、数据源
+2、mybatis mapper位置的配置

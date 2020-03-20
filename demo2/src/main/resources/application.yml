@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: hfzb!kd27
+    url: jdbc:mysql://rm-bp1gvatu4307wa3yjno.mysql.rds.aliyuncs.com:3306/sp
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.example.demo.entity
+logging:
+  level:
+    com.example.demo.mapper: debug

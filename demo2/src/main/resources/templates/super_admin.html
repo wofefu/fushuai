@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>该页面是超管进入的页面 可以创建 门店经理的账号</h1>
+
+<div th:text="${session.user.username}"></div>
+
+<h3>可以在此为系统添加门店经理账号</h3>
+<form action="/add" onsubmit="return checkForm()" method="post">
+    手机号 <input type="text" name="phone" id="phone" onblur="checkPhone()"><span id="msg"></span><br>
+    密码 <input type="password" name="password" id="pwd"><br>
+    确认密码 <input type="password" name="confirmPwd" id="cpwd"><br>
+    <input type="submit" value="确认添加账号">
+</form>
+</body>
+
+<script>
+    let phoneValid= false;
+
+    function checkForm() {
+        if(phoneValid){
+            let p1 = document.getElementById("pwd").value;
+            let p2 = document.getElementById("cpwd").value;
+            return (p1.trim().length >= 8 && p2.trim().length >= 8 && p1 === p2);
+
+        }else{
+            return false;
+        }
+
+
+    }
+    function checkPhone() {
+        let p = document.getElementById("phone").value;
+        console.log(p);
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = function(){
+            if (request.readyState===4)
+            {
+                if(request.status===200) {
+                    console.log(request.responseText);
+                    //成功 说明 手机号可用
+                    document.getElementById("msg").innerText="手机号可用";
+                    phoneValid=true;
+                }else{
+                    document.getElementById("msg").innerText=request.responseText;
+                    phoneValid=false;
+                }
+            }
+        };
+        request.open("get","/check?phone="+p);
+        request.send();
+        console.log(request.response);
+
+
+    }
+</script>
+</html>

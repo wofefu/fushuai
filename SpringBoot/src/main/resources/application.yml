@@ -1,0 +1,23 @@
+spring:
+  #选择激活具体的配置文件9
+  profiles:
+    active: jpa
+
+logging:
+  level:
+    com.example.demo: info
+  file:
+    name: myLog.log
+
+
+welcome: 武汉加油
+
+#复杂对象形式的配置项
+
+fuza:
+  welcome: 欢迎
+  img: 1.png
+
+project:
+  upload:
+    path: D:/uploadtest/

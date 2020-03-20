@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品入库</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+</head>
+<body>
+<h1 th:text="${shop.name+'-添加库存'}"></h1>
+
+
+<div id="app">
+
+
+    <form th:action="'/user/'+${session.user.id}+'/shop/'+${shop.id}+'/addGoods'" method="post">
+
+
+        <div v-for="(item,index) in goods">
+            商品名称<input type="text" name="name" v-model="item.name"><br>
+            sn码<input type="text" name="sn" v-model="item.sn"><br>
+            进货价格 <input type="number" v-model="item.costPrice"><br>
+            建议售价 <input type="number" v-model="item.salePrice"> <br>
+            类型 <input type="text" v-model="item.type"> <br>
+
+            <br><br><br>
+
+        </div>
+        <input type="button" value="提交" v-if="goods.length>0"
+               th:@click="'confirm('+${session.user.id}+','+${shop.id}+')'">
+
+    </form>
+
+    <button @click="addNew()">添加新货物</button>
+</div>
+</body>
+
+<script>
+    let self;
+    let app = new Vue({
+        el: "#app",
+        data: {
+            goods: []
+        },
+        methods: {
+            addNew() {
+                var g = {name: "", type: "", sn: "", costPrice: 0, salePrice: 0};
+                this.goods.push(g);
+            },
+            confirm(uId, sId) {
+                this.$http.post('/user/' + uId + '/shop/' + sId + '/addGoods', self.goods).then(function (res) {
+                    console.log(res)
+                }, function (res) {
+                    console.log(res);
+                });
+            }
+        },
+        mounted() {
+            self = this;
+        }
+    })
+
+</script>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>a {
+        display: block;
+    }</style>
+</head>
+<body>
+<h1>Hello 我是首页</h1>
+<h2>当前用户:</h2>
+<h3>
+    <span th:text="${session.user.getUsername()}"></span></h3>
+<h2 th:if="${session.user.getRoles().size()>0}">拥有角色:</h2>
+<h2 th:if="${session.user.getRoles().size()==0}">暂未拥有任何特殊角色</h2>
+
+<h2>
+    <form action="/buy" method="post">
+    <span th:each="r:${roles}" th:if="${!r.getName().equals('DIAMOND')}"><span
+            th:text="${r.getName()}"></span><label>
+<input type="checkbox" th:checked="${session.user.getRoles().contains(r)}" name="roleIds" th:value="${r.getId()}">
+    </label></span><br>
+        <input type="submit" value="更改角色"></form>
+</h2>
+
+<h3><a href="/red">RED角色链接</a><a href="/yellow">YELLOW角色链接</a><a href="/green">GREEN角色链接</a>
+    <a href="/both">DIAMOND角色链接</a><a href="/redOrYellow">RED YELLOW角色链接</a><a href="/redOrGreen">RED GREEN角色链接</a><a
+            href="/greenOrYellow">GREEN YELLOW角色链接</a>
+    <br>
+</h3>
+<form action="/personal" method="get">
+    指定用户id<input type="hidden" name="userId" th:value="${session.user.getId()}"><br>
+    <input type="submit" value="以指定id访问用户界面">
+
+</form>
+
+</body>
+</html>
