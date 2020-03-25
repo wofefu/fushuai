@@ -1,0 +1,200 @@
+body{
+
+overflow: hidden;
+}
+#top{
+    background-color: aqua;
+    float: left;
+    margin: 0;
+    padding: 1%;
+    height: 15%;
+    width: 98%;
+    font-size: 20px;
+	color: white;
+	z-index: 100;
+}
+#top li a{
+	color: white;
+	text-decoration:none;
+}
+#top li a:hover{
+	color: orange;
+}
+#top ul{
+	text-align: center;
+	list-style: none;
+}
+#topUl1{
+	text-align: right;
+	list-style: none;
+}
+#topUl1  li{
+    float: left;
+    width:50px;
+    margin: 10px;
+    text-align: right;
+}
+#topUl1  li ul{
+    position: absolute;
+    display: none;
+    width: 50px;
+    top: 130px;
+    text-align: right;
+ }
+#topUl1  li ul{
+    margin: -50px;
+    float: left;
+}
+#yTied {
+    position: absolute;
+    display: none;
+    width: 50px;
+    top: 130px;
+    text-align: right;
+}
+#yTied li{
+    float: left;
+
+    margin: 10px;
+    text-align: right;
+}
+#topUl1 li:hover ul{
+    display: block;
+    z-index: 5;
+    transition: all 2s;
+}
+#topUl1  li ul li:hover a{
+ color: #23ADE5;
+}
+
+#topUl3 li{
+    position: relative;
+        float: right;
+    width: auto;
+    padding: 10px;
+    margin: 0px;
+}
+
+#topUl3 li:hover span{
+	color: orange;
+}
+#topUl3 li:hover ul{
+    
+    display: block;
+}
+#info{
+    display: none;
+    position: absolute;
+    z-index:100 ;
+}
+#info li{
+    text-align: left;
+    width: 80px;
+    margin-left: -40px;
+}
+#info li:hover{
+    color: orange
+}
+#searchbox{
+    position: absolute;
+    left: 40%;
+    top: 4%;
+    margin: 10px;
+}
+#searchbox  input{
+    left: 20px;
+    margin: 5px;
+    width: 200px;
+    border-radius: 70px;
+    height: 30px;
+}
+#searchResult{
+    display: none;
+    background-color: white;
+    z-index: 100;
+    margin: 0px 10px 10px;
+    padding: 10px;
+    width: 170px;
+    height: 200px;
+}
+#searchbox  div{
+    position: relative;
+}
+#searchbox  img{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+#main_left{
+    float: left;
+    position: absolute;
+    margin: 5px;
+    padding: 5px;
+    top: 18%;
+    left: 10%;
+    height: 70%;
+    width: 20%;
+}
+#main_left ul{
+
+    text-align: center;
+    list-style: none;
+}
+#main_left ul li{
+    vertical-align: middle;
+    background-color: azure;
+    padding: 10px;
+    float: left;
+    width: 100%;
+    height: 30px;
+}
+#main_right{
+
+    left: 34%;
+    float: left;
+    position: absolute;
+    top: 21.5%;
+    height: 70%;
+    width: 50%;
+}
+#main_right table *{
+    padding: 10px;
+}
+#main_right button{
+    position: absolute;
+    left: 50%;
+}
+.lefttd{
+    width: 90px;
+    vertical-align: top;
+    text-align: right;
+}
+#source{
+    position: absolute;
+    left: 20%;
+    top: 10%;
+}
+#source form *{
+    margin: 10px;
+}
+#image{
+    margin: 10px;
+    padding: 10px;
+    position: absolute;
+    left:10%;
+}
+#Certification button{
+     position: absolute;
+    top: 55%;
+    left: 30%;
+}
+
+
+
+
+
+
+

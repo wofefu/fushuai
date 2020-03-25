@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kd27.feng.dao.LiveDao">
+    <resultMap id="searchResult" type="LiveRoom">
+        <result column="user_id" property="userId"/>
+        <result column="room_name" property="roomName"/>
+        <result column="room_tag" property="roomTag"/>
+        <result column="nickname" property="nickname"/>
+        <result column="room_uri" property="roomUri"/>
+        <result column="anchor_status" property="anchorStatus"/>
+        <result column="img" property="img"/>
+        <result column="live_home_id" property="liveRoomId"/>
+    </resultMap>
+
+    <resultMap id="requestForm" type="requestForm">
+        <result column="id" property="id"/>
+        <result column="real_name" property="realName"/>
+        <result column="id_card" property="idCard"/>
+        <result column="user_id" property="userId"/>
+        <result column="api_result" property="apiResult"/>
+        <result column="creat_time" property="creatDate"/>
+        <result column="facade_path" property="facadePath"/>
+        <result column="back_path" property="backPath"/>
+        <result column="status" property="Status"/>
+    </resultMap>
+
+    <select id="searchLiveByKeyWord" resultMap="searchResult" parameterType="search">
+        select * from live_show.live
+        <where>
+            <if test="search.status!=null and search.status!=''">
+                anchor_status=#{search.orderByType}
+            </if>
+            <if test="search.searchKeyWord!=null and search.searchKeyWord!=''">
+                and live.nickname  like #{search.searchKeyWord} or live.room_tag like #{search.searchKeyWord}
+                or live.room_name like #{search.searchKeyWord}
+            </if>
+        </where>
+        <if test="search.orderByType!=null and search.orderByType!='' ">
+            order by #{search.orderByType}
+        </if>
+        limit #{search.offset} , #{search.pageMax}
+    </select>
+    <select id="select5live" resultMap="searchResult">
+        select * from live_show.live limit 5;
+    </select>
+    <select id="searchLive" resultMap="searchResult" >
+        select * from live_show.live
+        <where>
+            <if test="anchorName != '' and anchorName!=null">
+                live.nickname  like #{anchorName} or live.room_tag like #{anchorName}
+                or live.room_name like #{anchorName}
+            </if>
+            <if test="anchorStatus !=''and anchorStatus != null">
+                and live.anchor_status = #{anchorStatus}
+            </if>
+        </where>
+        limit #{offset},1
+    </select>
+    <insert id="addFormRequest" parameterType="requestForm">
+        insert into requestform (real_name,id_card,user_id,creat_time,facade_path,back_path,api_result)
+        values (#{requestForm.realName},#{requestForm.idCard},#{requestForm.userId},now(),#{requestForm.facadePath},#{requestForm.backPath},#{requestForm.apiResult})
+    </insert>
+    <select id="allRequestForm" resultMap="requestForm">
+        select * from requestform where requestform.status=0
+    </select>
+    <insert id="addLive" parameterType="liveRoom">
+        insert into live (user_id,room_name, nickname, room_uri) values (#{liveRoom.userId},#{liveRoom.roomName},#{liveRoom.nickname},#{liveRoom.roomUri})
+    </insert>
+    <update id="agreeRequest">
+        update requestform set status=1 where id=#{id}
+    </update>
+    <update id="disagreeRequest">
+        update requestform set status=-1 where id=#{id}
+    </update>
+    <select id="searchLiveByUserId" resultMap="searchResult">
+        select * from live where user_id=#{id}
+    </select>
+    <update id="updateLiveInfo" parameterType="liveRoom">
+        update live
+        <trim prefix="set" suffixOverrides=",">
+            <if test="l.roomTag !=null and l.roomTag != ''">
+                room_tag=#{l.roomTag},
+            </if>
+            <if test="l.roomName != null and l.roomName != ''">
+                room_name=#{l.roomName},
+            </if>
+            <if test="l.nickname !=null and l.nickname !=''">
+                nickname=#{l.nickname},
+            </if>
+            <if test="l.anchorStatus !=null and l.anchorStatus!=''">
+                anchor_status=#{l.anchorStatus},
+            </if>
+            <if test="l.recording !=null and l.recording != ''">
+                recording=#{l.recording},
+            </if>
+            <if test="l.img !=null and l.img!=''">
+                img=#{l.img}
+            </if>
+        </trim> where user_id = #{l.userId}
+    </update>
+</mapper>

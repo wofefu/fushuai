@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kd27.feng.dao.UserDao">
+    <resultMap id="userMap" type="User">
+        <result column="user_name" property="username"/>
+        <result column="user_id" property="userId"/>
+        <result column="password" property="password"/>
+        <result column="icon" property="icon"/>
+        <result column="register_time" property="registerTime"/>
+        <result column="my_word" property="myWord"/>
+        <collection property="roleList" ofType="java.lang.String">
+            <result column="role_name" />
+        </collection>
+    </resultMap>
+    <resultMap id="searchResult" type="LiveRoom">
+        <result column="user_id" property="userId"/>
+        <result column="room_name" property="roomName"/>
+        <result column="room_tag" property="roomTag"/>
+        <result column="nickname" property="nickname"/>
+        <result column="room_uri" property="roomUri"/>
+        <result column="anchor_status" property="anchorStatus"/>
+        <result column="img" property="img"/>
+        <result column="my_word" property="myWord"/>
+        <result column="live_home_id" property="liveRoomId"/>
+
+    </resultMap>
+    <select id="login" resultMap="userMap">
+        select * from
+        live_show.user u left join live_show.role r on u.user_id = r.user_id
+        where user_name=#{username} and password=#{password}
+    </select>
+    <select id="selectUser" resultType="User" >
+		select user_id as userId, user_name as username from live_show.user where user_id =#{id};
+	</select>
+    <select id="selectUserByName" resultType="User">
+        select * from live_show.user where user_name=#{username};
+    </select>
+    <update id="update"  parameterType="User" >
+        update live_show.user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="user.username != null and user.username != ''">
+                user.user_name=#{user.username},
+            </if>
+            <if test="user.password != null and user.password != ''">
+                user.password=#{user.password},
+            </if>
+            <if test="user.gender != null and user.gender != ''">
+                user.gender=#{user.gender},
+            </if>
+            <if test="user.home != null and user.home != ''">
+                user.home=#{user.home},
+            </if>
+            <if test="user.birthday != null and user.birthday != ''">
+                user.birthday=#{user.birthday},
+            </if>
+            <if test="user.icon != null and user.icon != ''">
+                user.icon=#{user.icon},
+            </if>
+            <if test="user.myWord != null and user.myWord != ''">
+                user.my_word=#{user.myWord},
+            </if>
+        </trim>
+        where user_id=#{user.userId}
+
+    </update>
+    <insert id="register" useGeneratedKeys="true" keyProperty="userId">
+        insert  into  live_show.user (user_name, password,icon,register_time) values (#{user.username},#{user.password},#{user.icon},now())
+    </insert>
+    <select id="searchLive" resultMap="searchResult" >
+        select * from live_show.live
+        <where>
+        <if test="anchorName != '' and anchorName!=null">
+            live.nickname  like #{anchorName} or live.room_tag like #{anchorName}
+            or live.room_name like #{anchorName}
+        </if>
+            <if test="anchorStatus !=''and anchorStatus != null">
+                and live.anchor_status = #{anchorStatus}
+            </if>
+        </where>
+        limit #{offset},1
+    </select>
+
+
+
+
+</mapper>
