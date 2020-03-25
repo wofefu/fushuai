@@ -1,0 +1,104 @@
+html{
+    padding: 0;
+    margin: 0;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #3397e4;
+}
+.header{
+    height: 80px;
+    background-color: #3397e4;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    color: white;
+    min-width: 1200px;
+
+}
+
+.icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    vertical-align: middle
+}
+.logout span{
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+.aside {
+    width: 300px;
+
+}
+
+.menu span{
+    font-size: 22px;
+
+
+    cursor: pointer
+}
+
+.editarea {
+    width: 900px;
+    background-color: #fefefe;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30px;
+
+}
+
+.main{
+    width: 1200px;
+    margin: 10px auto;
+    padding: 30px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+
+.menu {
+    padding: 20px;text-align: center;
+    color: white;
+}
+
+.info-item {
+    width: 400px;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.info-item input[type=text],.info-item input[type=date]{
+    outline-style: none;
+    width: 300px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+.info-item input[type=radio]{
+    transform: scale(1.5);
+    margin-left: 30px;
+}
+
+#update {
+    height: 60px;
+    width: 100%;
+    background-color: #3397e4;
+    font-size: 22px;
+    border-radius: 5px;
+    color: white;
+}
+
+.active {
+    background-color: white;
+    color: #3397e4;
+}

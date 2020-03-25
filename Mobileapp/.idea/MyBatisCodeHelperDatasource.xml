@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MyBatisCodeHelperDatasource">
+    <option name="lastUsedTestConfiguration">
+      <TestConfiguration>
+        <option name="driverClass" value="com.mysql.cj.jdbc.Driver" />
+        <option name="from" value="history" />
+        <option name="intellij" value="false" />
+        <option name="order" value="-1" />
+        <option name="password" value="123456" />
+        <option name="url" value="jdbc:mysql://106.13.79.230:3306" />
+        <option name="userName" value="fushuai" />
+      </TestConfiguration>
+    </option>
+    <option name="projectProfile">
+      <ProjectProfile>
+        <option name="generateService" value="true" />
+        <option name="generateServiceInterface" value="true" />
+        <option name="javaMapperPackage" value="com.example.app.dao" />
+        <option name="javaMapperPath" value="$PROJECT_DIR$/src/main/java" />
+        <option name="javaModelPackage" value="com.example.app.entity" />
+        <option name="javaModelPath" value="$PROJECT_DIR$/src/main/java" />
+        <option name="lastDatabaseCrudChooseModuleName" value="Mobileapp" />
+        <option name="moduleNameToPackageAndPathMap">
+          <map>
+            <entry key="Mobileapp">
+              <value>
+                <UserPackageAndPathInfoByModule>
+                  <option name="javaMapperPackage" value="com.example.app.dao" />
+                  <option name="javaMapperPath" value="$PROJECT_DIR$/src/main/java" />
+                  <option name="javaModelPacakge" value="com.example.app.entity" />
+                  <option name="javaModelPath" value="$PROJECT_DIR$/src/main/java" />
+                  <option name="javaServiceInterfacePackage" value="com.example.app.service" />
+                  <option name="javaServiceInterfacePath" value="$PROJECT_DIR$/src/main/java" />
+                  <option name="javaServicePackage" value="com.example.app.service.impl" />
+                  <option name="javaServicePath" value="$PROJECT_DIR$/src/main/java" />
+                  <option name="xmlPackage" value="mapper" />
+                  <option name="xmlPath" value="$PROJECT_DIR$/src/main/resources" />
+                </UserPackageAndPathInfoByModule>
+              </value>
+            </entry>
+          </map>
+        </option>
+        <option name="tableGenerateConfigs">
+          <map>
+            <entry key="mobileapp:user">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="User" />
+                  <option name="moduleName" value="Mobileapp" />
+                  <option name="sequenceColumn" value="" />
+                  <option name="sequenceId" value="" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+          </map>
+        </option>
+        <option name="xmlMapperPackage" value="mapper" />
+        <option name="xmlMapperPath" value="$PROJECT_DIR$/src/main/resources" />
+      </ProjectProfile>
+    </option>
+    <option name="testConfigurations">
+      <list>
+        <TestConfiguration>
+          <option name="driverClass" value="com.mysql.cj.jdbc.Driver" />
+          <option name="from" value="history" />
+          <option name="intellij" value="false" />
+          <option name="order" value="-1" />
+          <option name="password" value="123456" />
+          <option name="url" value="jdbc:mysql://106.13.79.230:3306" />
+          <option name="userName" value="fushuai" />
+        </TestConfiguration>
+      </list>
+    </option>
+  </component>
+</project>

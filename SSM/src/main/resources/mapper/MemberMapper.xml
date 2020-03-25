@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fushuai.repository.MemberDao">
+    <delete id="deleteMember">
+         delete from fs_member where id=#{id}
+    </delete>
+    <insert id="newMember" useGeneratedKeys="true" keyProperty="id">
+        insert into fs_member(userName,trueName,passWord,city,address,tel,carNo) values (
+        #{member.userName},
+        #{member.trueName},
+        #{member.passWord},
+        #{member.city},
+        #{member.address},
+        #{member.tel},
+        #{member.carNo}
+        )
+    </insert>
+    <!--    void  insertrole(@Param("memberId") int memberId);-->
+    <insert id="insertrole">
+        insert into fs_role(role, member_id) VALUES ('COMMON',#{memberId})
+    </insert>
+    <!--    Member selectByTelAndPassword(@Param("tel") String tel, @Param("password") String password);-->
+    <resultMap id="memberMap" type="fushuai.entity.Member">
+        <id column="id" property="id"/>
+        <result column="userName" property="userName"/>
+        <result column="trueName" property="trueName"/>
+        <result column="passWord" property="passWord"/>
+        <result column="city" property="city"/>
+        <result column="address" property="address"/>
+        <result column="postcode" property="postcode"/>
+        <result column="carNo" property="carNo"/>
+        <result column="cardType" property="carType"/>
+        <result column="tel" property="tel"/>
+        <result column="email" property="email"/>
+        <collection property="roles" ofType="java.lang.String">
+            <result column="role"/>
+        </collection>
+    </resultMap>
+    <select id="selectByTelAndPassword" parameterType="fushuai.entity.Member"
+            resultMap="memberMap" flushCache="true">
+         select id, userName, trueName, passWord, city, address, postcode, carNo, cardType, tel, email, role from fs_member left join fs_role on fs_member.id = fs_role.member_id where tel=#{tel} and password=#{password};
+    </select>
+    <select id="selectPageList" parameterType="fushuai.utils.Page" resultMap="BaseResultMap">
+    select id,userName,trueName,city,address,tel from fs_member order by id limit #{start},#{row}
+    </select>
+    <resultMap id="BaseResultMap" type="fushuai.entity.Member">
+        <result column="id" property="id"/>
+        <result column="userName" property="userName"/>
+        <result column="trueName" property="trueName"/>
+        <result column="passWord" property="passWord"/>
+        <result column="city" property="city"/>
+        <result column="address" property="address"/>
+        <result column="tel" property="tel"/>
+    </resultMap>
+    <select id="selectPageListCount" resultType="int">
+         select count(*) as count from fs_member
+    </select>
+</mapper>

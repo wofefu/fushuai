@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fushuai.repository.FsGoodsMapper">
+  <resultMap id="BaseResultMap" type="fushuai.entity.FsGoods">
+    <!--@mbg.generated-->
+    <!--@Table fs_goods-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="typeID" jdbcType="VARCHAR" property="typeid" />
+    <result column="goodsName" jdbcType="VARCHAR" property="goodsname" />
+    <result column="introduce" jdbcType="LONGVARCHAR" property="introduce" />
+    <result column="price" jdbcType="FLOAT" property="price" />
+    <result column="nowPrice" jdbcType="FLOAT" property="nowprice" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+    <result column="INTime" jdbcType="TIMESTAMP" property="intime" />
+    <result column="newGoods" jdbcType="VARCHAR" property="newgoods" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, typeID, goodsName, introduce, price, nowPrice, picture, INTime, newGoods
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from fs_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from fs_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="fushuai.entity.FsGoods" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into fs_goods (typeID, goodsName, introduce, 
+      price, nowPrice, picture, 
+      INTime, newGoods)
+    values (#{typeid,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{introduce,jdbcType=LONGVARCHAR}, 
+      #{price,jdbcType=FLOAT}, #{nowprice,jdbcType=FLOAT}, #{picture,jdbcType=VARCHAR}, 
+      #{intime,jdbcType=TIMESTAMP}, #{newgoods,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="fushuai.entity.FsGoods" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into fs_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="typeid != null">
+        typeID,
+      </if>
+      <if test="goodsname != null">
+        goodsName,
+      </if>
+      <if test="introduce != null">
+        introduce,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="nowprice != null">
+        nowPrice,
+      </if>
+      <if test="picture != null">
+        picture,
+      </if>
+      <if test="intime != null">
+        INTime,
+      </if>
+      <if test="newgoods != null">
+        newGoods,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="typeid != null">
+        #{typeid,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsname != null">
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null">
+        #{introduce,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=FLOAT},
+      </if>
+      <if test="nowprice != null">
+        #{nowprice,jdbcType=FLOAT},
+      </if>
+      <if test="picture != null">
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="intime != null">
+        #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newgoods != null">
+        #{newgoods,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="fushuai.entity.FsGoods">
+    <!--@mbg.generated-->
+    update fs_goods
+    <set>
+      <if test="typeid != null">
+        typeID = #{typeid,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsname != null">
+        goodsName = #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null">
+        introduce = #{introduce,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=FLOAT},
+      </if>
+      <if test="nowprice != null">
+        nowPrice = #{nowprice,jdbcType=FLOAT},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="intime != null">
+        INTime = #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newgoods != null">
+        newGoods = #{newgoods,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="fushuai.entity.FsGoods">
+    <!--@mbg.generated-->
+    update fs_goods
+    set typeID = #{typeid,jdbcType=VARCHAR},
+      goodsName = #{goodsname,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=LONGVARCHAR},
+      price = #{price,jdbcType=FLOAT},
+      nowPrice = #{nowprice,jdbcType=FLOAT},
+      picture = #{picture,jdbcType=VARCHAR},
+      INTime = #{intime,jdbcType=TIMESTAMP},
+      newGoods = #{newgoods,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+<!--auto generated by MybatisCodeHelper on 2020-02-19-->
+  <select id="findByAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from fs_goods
+    <where>
+      <if test="id != null">
+        and id=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="typeid != null">
+        and typeID=#{typeid,jdbcType=VARCHAR}
+      </if>
+      <if test="goodsname != null">
+        and goodsName=#{goodsname,jdbcType=VARCHAR}
+      </if>
+      <if test="introduce != null">
+        and introduce=#{introduce,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="price != null">
+        and price=#{price,jdbcType=FLOAT}
+      </if>
+      <if test="nowprice != null">
+        and nowPrice=#{nowprice,jdbcType=FLOAT}
+      </if>
+      <if test="picture != null">
+        and picture=#{picture,jdbcType=VARCHAR}
+      </if>
+      <if test="intime != null">
+        and INTime=#{intime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="newgoods != null">
+        and newGoods=#{newgoods,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>

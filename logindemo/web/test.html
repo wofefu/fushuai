@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ceshi</title>
+</head>
+<body>
+   <div id="a"></div>
+</body>
+<script>
+    var req=new XMLHttpRequest();
+    req.onreadystatechange=function () {
+        console.log(req.readyState)
+        if (req.status==200 && req.readyState==4) {
+           console.log(req.responseText)
+            document.getElementById("a").innerText=req.responseText;
+        }
+    }
+    req.open("GET","test");
+    req.send();
+</script>
+</html>

@@ -1,0 +1,163 @@
+html{
+    padding: 0;
+    margin: 0;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
+.header{
+    height: 80px;
+    background-color: #3397e4;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    color: white;
+    min-width: 1200px;
+  
+}
+
+.main{
+    width: 1200px;
+    margin: 10px auto;
+    padding: 30px 0;
+}
+
+.publish {
+    width: 550px;
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    justify-content: space-between;
+    margin:0 auto;
+}
+.publish1 {
+
+    width: 550px;
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    justify-content: space-between;
+    margin:0 auto;
+}
+
+.my-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+
+
+#content {
+    width: 400px;
+    padding: 10px;
+    color: #828282;
+    box-shadow: 0 0 10px #e4e4e4;
+    
+}
+
+.publish-buttons {
+    width:550px;
+    margin: 0 auto;
+    text-align: right;
+}
+
+.publish-btn {
+    font-size: 14px;
+    margin: 10px 0;
+    background-color:  #3397e4;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    
+}
+
+.blogs {
+    padding: 0 30px;
+}
+
+.blog {
+    width: 800px;
+    margin: 15px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    
+    justify-content: space-between;
+    box-shadow: 0 0 10px #e4e4e4;
+    padding: 25px 50px;
+    }
+.blog1 {
+    width: 450px;
+    margin: 15px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    height: 50px;
+    justify-content: space-between;
+    box-shadow: 0 0 10px #e4e4e4;
+    padding: 25px 50px;
+    }
+.blog-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+   
+}
+
+.blog-user {
+display: flex;
+    flex-direction: row;
+    width: 200px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.blog-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.blog-content {
+    width:550px;
+    font-size: 24px;
+     display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.blog-text {
+   
+   
+    
+}
+
+.blog-comment {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 16px;
+}
+
+.time {
+    font-size: 14px;
+    color: #828282;
+}
+
+.name {
+    color: #4f4f4f;
+    font-weight: 900;
+    margin-bottom: 10px
+}
+
+.pages {
+    margin: 0 auto;
+    width: 900px;
+    text-align: right;
+}
