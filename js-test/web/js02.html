@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件编程</title>
+    <script type="text/javascript">
+    /*
+        js函数调用时，不关心传入的参数值个数
+        一开始，会使用一个内部对象arguments来接收，arguments是一个伪数组(结构类似数组，可以当成数组来使用：length、[index])，但不是Array类型对象，不能直接使用数组的方法
+        按顺序将arguments接收到的参数值，赋给形参
+
+        形参：方便参数值的使用
+
+    */
+        /*function fn (e){
+            console.debug("fn....", arguments.length);
+            console.debug("fn....", arguments[0]);
+            console.debug(arguments[0] == e)
+
+        }
+
+        fn();
+        fn(1);
+        fn(1, 2);*/
+
+        /*DOM操作，针对的都是浏览器内存中的DOM树*/
+        /*获取元素时，先确定DOM树中是否具有该元素*/
+        window.onload = function() {
+            var btn = document.getElementById("btn");
+            console.debug(btn);
+            var d1 = document.getElementById("d1");
+            console.debug(d1);
+
+            function fn1 (){
+                console.debug("fn1", this);
+            }
+            d1.onclick = fn1;
+
+            function fn2 (e) {
+                console.debug("fn2", this);
+                //e.cancelBubble = true;
+                e.stopPropagation();
+            }
+            btn.onclick = fn2;
+
+            var loginBtn = document.getElementById("loginBtn");
+
+            loginBtn.onclick = function(e) {
+                var usernameInput = document.getElementById("username");
+                var usernameText = usernameInput.value;
+                //假设：用户名不能为空，且首字母必须为大写英文字符
+                var regExp = /^[A-Z].*/;
+                if(!regExp.test(usernameText)){
+                    document.getElementById("usernameMsg").innerHTML = "用户名不能为空，且首字母必须为大写英文字符";
+                    // return false;
+                    e.preventDefault();
+                }
+
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <div style="width: 100px; height: 100px; border: 1px solid red;" id="d1">
+        <button id="btn">click</button>
+    </div>
+
+    <div>
+        <form action="doLogin">
+            username:<input type="text" name="username" id="username">
+            <span id="usernameMsg" style="color: red;"></span>
+            <br/>
+            <input id="loginBtn" type="submit" value="登录"/>
+        </form>
+    </div>
+</body>
+</html>

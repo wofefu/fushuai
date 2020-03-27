@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用js的方式</title>
+<!--
+    MIME类型
+    Mutipurpose Internet Mail Extends Type，多功能互联网邮件扩展类型
+    用于告诉接收方法用什么插件、应用来处理接收到的数据
+    text/javascript、text/html、text/css、text/plain、text/json(application/json)、images/jpeg ...
+-->
+    <!--方式1：内部js-->
+    <script type="text/javascript">
+        alert(123);
+        alert(456);
+    </script>
+<!--
+    路径
+        相对
+            相对于当前文件所在目录(浏览器地址栏最后一层目录)
+        绝对
+            完整的url
+            url，uniform resource locator，统一资源定位符，俗称 网址，用于定位资源
+            url格式：
+                协议://ip:port/resourcePath
+            浏览器访问本地文件：file
+-->
+    <!--方式2：外部js-->
+    <script type="text/javascript" src="js/a.js" ></script>
+    <script type="text/javascript" src="file://D:\workspace-idea\kd27\js-test\web\js\b.js"></script>
+</head>
+
+<body>
+    <h1>Hello JS01!</h1>
+    <!--方式3：行内js-->
+<!--
+    href
+        本意：点击超链接，跳转到的位置
+        javascript: 表示属性值是一段js代码(脚本)
+-->
+    <a href="javascript:var v = 123;alert(v);alert(2);alert(3);">click me</a>
+<!--
+    action
+        本意：表单提交到的位置
+-->
+    <form action="javascript:var v = 456; alert(v);">
+        <button type="submit">click me2</button>
+    </form>
+<!--
+    onxxx
+        本意：一段js脚本
+-->
+    <button type="button" onclick="var v = 789; alert(v);">click me3</button>
+</body>
+
+</html>

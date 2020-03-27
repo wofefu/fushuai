@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="js/template-web.js"></script>
+    <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+
+    <script type="text/html" id="userTemplate">
+        {{each us user}}
+            <tr align="center">
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.password}}</td>
+                <td>{{user.phone}}</td>
+            </tr>
+        {{/each}}
+    </script>
+
+    <script type="text/javascript">
+        $(function(){
+           /*$.ajax({
+                url:"/users/findAll",
+                dataType:"json",
+                success:function(users){
+                    console.debug(users);
+
+                    var usersHtml = template("userTemplate", {us:users});
+
+                    $("#userDatas").html(usersHtml);
+                }
+            });*/
+
+           $.getJSON("/users/findAll", function(users){
+               var usersHtml = template("userTemplate", {us:users});
+               $("#userDatas").html(usersHtml);
+           });
+        });
+    </script>
+</head>
+<body>
+    <table id="users" width="500px" border="1" cellspacing="0" style="margin: 50px auto;">
+        <caption>用户列表</caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>手机号</th>
+            </tr>
+        </thead>
+        <tbody id="userDatas">
+        <tr align="center">
+            <td>1</td>
+            <td>a</td>
+            <td>a</td>
+            <td>1</td>
+        </tr>
+        <tr align="center">
+            <td>2</td>
+            <td>b</td>
+            <td>b</td>
+            <td>2</td>
+        </tr>
+        <tr align="center">
+            <td>3</td>
+            <td>c</td>
+            <td>c</td>
+            <td>3</td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

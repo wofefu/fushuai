@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var $usernameInput = $("input:eq(0)");
+
+            $usernameInput.blur(function(){
+
+                var that = this;
+                $.ajax({
+                    async:true,
+                    type:"get",
+                    url:"/s",
+                    data:{username:$usernameInput.val()},
+                    dataType:"text",
+                    success:function(data){
+                        $(that).next().text(data);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    username:<input type="text"/>
+    <span></span>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            console.debug($("#d3"));
+            console.debug($("li:nth-child(2)"));
+            console.debug($("li:eq(4)"))
+
+            $("div").each(function (e, i, x) {
+                console.debug(this);
+                console.debug(e);
+                console.debug(i);
+                console.debug(x);
+                console.debug(this.innerHTML)
+                console.debug($(this).html())
+            });
+
+            console.debug($("div").find(":eq(1)"));
+            //<==>
+            console.debug($("div li:eq(1)"));
+
+            var $div = $("<div><button>click me</button></div>");
+            $div.find("button").click(function(){
+                alert("点击了按钮...");
+                alert($("#d").data("name"));
+                alert($("#d").data("id"));
+            });
+
+            $("#d").html($div);
+
+            $("#d").data({id:123,"name":"zhangsan"});
+
+            //$("button").click();
+            $("button").trigger("click")
+        });
+    </script>
+</head>
+<body>
+
+    <div>111</div>
+    <div>222</div>
+    <div id="d3">333</div>
+    <script >
+
+
+    </script>
+    <div>444</div>
+
+    <ul>
+        <li>111</li>
+        <li>222</li>
+        <li>333</li>
+        <li>444</li>
+    </ul>
+    <div>
+        <li>555</li>
+        <li>666</li>
+    </div>
+
+    <script type="text/javascript">
+        console.debug($("div")); //$(); <==> jQuery();
+        console.debug($("div") instanceof Array);
+        console.debug($("<div>Hello</div><span>jQuery</span>"));
+
+        var d3 = document.getElementById("d3");
+        console.debug(d3.innerHTML);
+        console.debug($(d3).html());
+
+
+        //对于reay方法，相应的dom对象只能是document
+        //对于onload属性，相应的bom对象只能是window
+        $(document).ready(function(){ //可以简写成：$(function(){})
+            //alert(this)
+        });
+
+    </script>
+
+    <div id="d"></div>
+</body>
+</html>

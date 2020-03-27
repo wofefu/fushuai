@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>传统的请求响应模式</title>
+
+    <!--
+        请求由谁发出，响应最后就交给谁处理
+    -->
+
+    <!--
+        传统请求/响应模式
+            由浏览器发出请求，该请求的响应一般是 完整页面的html数据、js文件、css文件、图片，
+            由浏览器接收响应，并处理，生成新页面
+    -->
+
+    <!--
+        同步请求：阻塞浏览器做其他事情，直至完全接收到同步请求的响应数据
+        异步请求：不阻塞浏览器做其他事情，当完全接收异步请求的响应数据，会通过回调的方式执行响应数据的处理
+    -->
+
+    <!--
+        Ajax请求/响应模式
+            由Ajax引擎发出请求，该请求的响应一般是 xml、json，
+            由Ajax引擎接收响应，并处理，浏览器不会根据该响应生成新页面
+    -->
+<!--
+    使用Ajax的场景：
+        1.异步请求
+        2.局部刷新
+-->
+
+    <script type="text/javascript">
+
+        window.onload = function (){
+            // Ajax编程属于js编程
+
+            var usernameInput = document.getElementById("username");
+            usernameInput.onblur = function () {
+                //1.创建Ajax引擎
+                var xhr = new XMLHttpRequest();
+
+
+                //2.准备请求信息，建立与服务器的连接
+                //ES6模板字符串，使用反引号``括起来，其中可以使用${varName}占位符
+                xhr.open("get", `/s1?username=${this.value}`, true);
+
+                //3.发送请求
+                xhr.send();
+
+                /*
+                    4.获取响应文本，基于xhr对象的状态改变事件来实现
+                    onreadystatechange，状态发生改变时执行的函数
+                    readyState，获取状态
+                 */
+                xhr.onreadystatechange = function () {
+                    // alert(xhr.readyState);
+                    if(xhr.readyState == 4){
+                        console.debug("------->", xhr.responseText);
+                        var usernameMsg = document.getElementById("usernameMsg");
+                        usernameMsg.innerHTML = xhr.responseText;
+                    }
+                }
+
+            }
+
+
+
+        }
+
+    </script>
+</head>
+<body>
+    <h2>注册页面</h2>
+    <form action="/s1">
+        username:<input type="text" name="username" id="username" >
+        <span id="usernameMsg"></span>
+        <br/>
+        ...
+        <br/>
+        <input type="button" value="注册" id="regBtn"/>
+    </form>
+</body>
+</html>

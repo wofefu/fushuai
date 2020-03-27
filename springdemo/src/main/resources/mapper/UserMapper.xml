@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fushuai.dao.UserDao">
+    <select id="selectUser" resultType="User">
+    select * from user where id = #{id}
+  </select>
+    <resultMap id="UserMap" type="fushuai.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <collection property="roles" ofType="java.lang.String">
+            <result column="role_name"/>
+        </collection>
+    </resultMap>
+    <select id="login" resultMap="UserMap" flushCache="true">
+      select * from douyu.user u left join douyu.role r
+      on u.id = r.userId
+      where u.username= #{username}and u.password=#{password}
+  </select>
+    <!--    void register(@Param("u") User user);-->
+    <insert id="register" parameterType="fushuai.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username, password) values(#{u.username},#{u.password});
+    </insert>
+    <!--    void insertRole(@Param("rolename") String rolename,@Param("id") int id);-->
+    <insert id="insertRole">
+       insert into role (role_name, userId) values ('COMMON',#{id});
+    </insert>
+</mapper>
