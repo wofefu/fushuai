@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-router.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .a{
+            margin: 25px auto;
+            font-size: 30px;
+            font-weight:900;
+            text-align: center;
+        }
+        form {
+            margin: 25px auto;
+            text-align: center;
+            font-weight: 500;
+            font-size: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 25px auto;
+        }
+    </style>
+</head>
+<body>
+<span id="userid" style="display: none">
+    ${id}
+</span>
+<div class="a">修改学员信息</div>
+<div id="vue-area">
+    <form id="form">
+        <table>
+            <tr>
+                <td>姓名</td>
+                <td> <input type="text" v-model="student.sname"></td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    <input type="radio" name="gender" value="男"  v-model="student.gender">男
+                    <input type="radio" name="gender" value="女"  v-model="student.gender">女
+                </td>
+            </tr>
+            <tr>
+                <td>生日</td>
+                <td>
+                    <input type="date" v-model="student.birthday">
+                </td>
+            </tr>
+            <tr>
+                <td>电话</td>
+                <td><input type="text" v-model="student.telephone"></td>
+            </tr>
+            <tr>
+                <td>E-mail</td>
+                <td><input type="text" v-model="student.email"></td>
+            </tr>
+            <tr>
+                <td>班级</td>
+                <td>
+                    <select v-model="student.classid" >
+                        <option value="0">根据班级筛选</option>
+                        <option v-for="(item,indexInClass) in allclass" :value="item.id">
+                            {{item.cname}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <button type="button" @click="subModify">提交</button>
+    </form>
+<button @click="back()">返回</button>
+</div>
+</body>
+<script>
+    let uid =$("#userid").text();
+    let app = new Vue({
+        el: "#vue-area",
+        data: {
+            student: [],
+            allclass:[]
+        },
+        methods: {
+            back: function () {
+                location.href="http://localhost:8088/student";
+            },
+            loadData:function () {
+                self = this;
+                $.ajax({
+                    url: 'http://localhost:8088//OneStudent/'+uid,
+                    type: 'get',
+                    success: function (data) {
+                        self.student=data;
+                        console.log(data);
+                    }
+                })
+            },
+            getClass:function () {
+                 self=this
+                $.ajax({
+                    url: "http://localhost:8088//allclass",
+                    type: 'get',
+                    success: function (data) {
+                          self.allclass=data;
+                          console.log(data)
+                    }
+                })
+            },
+            checka(){
+                var tel=/1[0-9]{10}/;
+                var mail=/[0-9]*[abc]*@[0-9]*[a-z]*.[a-z]*/
+                if (!self.student.classid>0){
+                    alert("请选择班级")
+                    return false;
+                }
+                if (!tel.test(self.student.telephone)||self.student.telephone.length!==11){
+                    alert("手机号格式错误")
+                    return false;
+                }
+                if (!mail.test(self.student.email)){
+                    alert("邮箱格式错误")
+                    return false;
+                }
+                return true;
+            },
+            subModify() {
+                self = this
+                if (self.checka()) {
+                    $.ajax({
+                        url: "http://localhost:8088/update",
+                        type: "post",
+                        contentType: 'application/json',
+                        data: JSON.stringify(self.student),
+                        success: function (data) {
+                            console.log(data)
+                            if (data > 0) {
+                                alert("修改成功")
+                            } else {
+                                alert("修改失败")
+                            }
+                        }
+                    })
+                }
+            }
+        },
+        mounted: function () {
+            this.loadData();
+            this.getClass();
+        }
+    })
+</script>
+</html>

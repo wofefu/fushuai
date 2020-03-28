@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改学员信息</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-router.js"></script>
+</head>
+<body>
+<div id="vue-area">
+    <form>
+        <table>
+            <tr>
+                <td>姓名</td>
+                <td>{{student.sName}}</td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    <input type="radio" name="gender" value="1" v-model="student.gender">男
+                    <input type="radio" name="gender" value="0" v-model="student.gender">女
+                </td>
+            </tr>
+            <tr>
+                <td>生日</td>
+                <td>
+                    <input type="date" v-model="student.birthday">
+                </td>
+            </tr>
+            <tr>
+                <td>电话</td>
+                <td><input type="text" v-model="student.telephone"></td>
+            </tr>
+            <tr>
+                <td>E-mail</td>
+                <td><input type="text" v-model="student.email"></td>
+            </tr>
+            <tr>
+                <td>班级</td>
+                <td>
+                    <select v-model="student.classId" >
+                    <option value="0">根据班级筛选</option>
+                    <option v-for="(item,indexInClass) in classes" :value="item.id">
+                        {{item.cName}}
+                    </option>
+                </select>
+                </td>
+            </tr>
+        </table>
+        <button type="button" @click="subModify">提交</button>
+    </form>
+</div>
+</body>
+<script>
+    host = window.location.host;
+    url = window.location.href;
+    userId=url.replace("http://"+host+"/modifyInfo?id=",'');
+    var self;
+    new Vue({
+        el: "#vue-area",
+        data: {
+            classes: [],
+            studentId:'',
+            student: '',
+            classId: 0,
+        },
+        methods: {
+            check(){
+                var tel=/1[0-9]{10}/;
+                var mail=/[0-9]*[abc]*@[0-9]*[a-z]*.[a-z]*/
+                if (!self.student.classId>0){
+                    alert("请选择班级")
+                    return false;
+                }
+                if (!tel.test(self.student.telephone)||self.student.telephone.length!==11){
+                    alert("手机号格式错误")
+                    return false;
+                }
+                if (!mail.test(self.student.email)){
+                    alert("邮箱格式错误")
+                    return false;
+                }
+                return true;
+            },
+            subModify(){
+                if (self.check()) {
+                    $.ajax({
+                        url: "/saveModify",
+                        type: "post",
+                        contentType:"application/json",
+                        data: JSON.stringify(self.student),
+                        success: function (res) {
+
+                            alert(res)
+                        }
+                    })
+                }
+            },
+            getClass() {
+                $.ajax({
+                    url: '/classes',
+                    type: "get",
+                    success: function (res) {
+                        self.classes = JSON.parse(res);
+
+                    }
+                })
+            },
+            getInfo(){
+                $.ajax({
+                    url:"/queryOne",
+                    type: "get",
+                    data: {
+                        studentId:userId
+                    },
+                    success:function (res) {
+                        console.log(res);
+                        self.student=JSON.parse(res)
+                        self.classId=self.student.classId
+                    }
+                })
+            }
+        },
+        mounted: function () {
+            self = this;
+            self.getClass();
+            self.getInfo();
+        },
+    })
+</script>
+</html>

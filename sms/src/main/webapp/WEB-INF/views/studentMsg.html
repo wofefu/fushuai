@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学员信息列表</title>
+    <script type="text/javascript" src="/js/template-web.js"></script>
+    <script type="text/html" id="studentTemplate">
+        {{each students student}}
+        <tr>
+            <td><a href="/change?sId={{student.id}}" id="changeMsg">{{student.id}}</a></td>
+            <td>{{student.sName}}</td>
+            <td>{{student.gender}}</td>
+            <td>{{student.birthday}}</td>
+            <td>{{student.telephone}}</td>
+            <td>{{student.email}}</td>
+            <td>{{student.classes.cName}}</td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var studentData = document.getElementById("studentData");
+            let xhr = new XMLHttpRequest();
+            xhr.open("get", "/allStudent");
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    console.log(xhr.responseText);
+                    var studentMsg = JSON.parse(xhr.responseText);
+                    studentData.innerHTML = template("studentTemplate", {students: studentMsg});
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<table border="1" cellspacing="0" width="800px" style="margin: 50px auto;text-align: center">
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>生日</th>
+        <th>电话号码</th>
+        <th>邮箱</th>
+        <th>班级</th>
+    </tr>
+    </thead>
+    <tbody id="studentData">
+
+    </tbody>
+</table>
+</body>
+</html>

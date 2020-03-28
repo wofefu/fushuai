@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-router.js"></script>
+</head>
+<body>
+<div style="align-content: center" id="vue-area">
+    <div id="choice">
+        <select v-model="pageMax" @change="addPageMax">
+            <option value="5">选择展示数(默认为5)</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+        </select>
+        <select v-model="classId" @change="selectByClass(pageIndex,pageMax)">
+            <option value="0">根据班级筛选</option>
+            <option v-for="(item,indexInClass) in classes" :value="item.id">
+                {{item.cName}}
+            </option>
+        </select>
+    </div>
+
+    <table style="align-content: center;" id="table">
+
+        <tr>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>性别</td>
+            <td>生日</td>
+            <td>电话</td>
+            <td>E-main</td>
+            <td>班级</td>
+        </tr>
+        <tr v-for="(item,index) in students" :key="index" @click="modifyStudent(item.id)">
+            <td v-if="index%2===0">{{item.id}}</td>
+            <td v-if="index%2===0">{{item.sName}}</td>
+            <td v-if="index%2===0">{{item.gender}}</td>
+            <td v-if="index%2===0">{{item.birthday}}</td>
+            <td v-if="index%2===0">{{item.telephone}}</td>
+            <td v-if="index%2===0">{{item.email}}</td>
+            <td v-if="index%2===0">{{item.classname}}</td>
+
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.id}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.sName}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.gender}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.birthday}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.telephone}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.email}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.classname}}</td>
+        </tr>
+    </table>
+    <div id="pagedown">
+        <button v-show="!pages.isFirstPage" @click="pageUp">上一页</button>
+        共 {{pages.pages}} 页,当前第 {{pages.pageNum}} 页
+        <button v-show="!pages.isLastPage" @click="pageDown">下一页</button>
+    </div>
+</div>
+</body>
+<script>
+    var self;
+    new Vue({
+        el: "#vue-area",
+        data: {
+            classes: [],
+            pages: '',
+            pageIndex: 0,
+            pageMax: 5,
+            students: [],
+            classId: 0,
+        },
+        methods: {
+            modifyStudent(id){
+                console.log(id)
+
+                window.open("/modifyInfo?id="+id,"_self" )
+            },
+            selectByClass(index, max) {
+                $.ajax({
+                    url: "/queryByClass",
+                    data: {
+                        pageIndex: index,
+                        pageMax: max,
+                        classId: self.classId,
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        self.pages = JSON.parse(res);
+                        self.students = self.pages.list;
+                    }
+                })
+            },
+            getClass() {
+                $.ajax({
+                    url: '/classes',
+                    type: "get",
+                    success: function (res) {
+                        self.classes = JSON.parse(res);
+                    }
+                })
+            },
+            addPageMax() {
+                self.getStudents(1, self.pageMax);
+            },
+            pageUp() {
+                if (self.classId===0){
+                    self.getStudents(self.pages.prePage, self.pageMax)
+                }else {
+                    self.selectByClass(self.pages.prePage, self.pageMax)
+                }
+            },
+            pageDown() {
+                if (self.classId===0){
+                    self.getStudents(self.pages.nextPage, self.pageMax)
+                }else {
+                    self.selectByClass(self.pages.nextPage, self.pageMax)
+                }
+            },
+            getStudents(index, max) {
+                $.ajax({
+                    url: "/query",
+                    data: {
+                        pageIndex: index,
+                        pageMax: max,
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        self.pages = JSON.parse(res);//fastJson 版本高这样处理的
+                        self.students = self.pages.list;
+                    }
+                })
+            }
+        },
+        mounted: function () {
+            self = this;
+            self.getStudents(self.pageIndex, self.pageMax);
+            self.getClass();
+        }
+    })
+</script>
+<style>
+    #table {
+        border-collapse: collapse;
+        position: relative;
+        left: 20%;
+        padding-top: 20px;
+    }
+
+    #choice {
+        border-collapse: collapse;
+        position: relative;
+        left: 32%;
+        padding: 20px;
+    }
+
+    #pagedown {
+        border-collapse: collapse;
+        position: relative;
+        left: 40%;
+        padding-top: 20px;
+    }
+
+    #table tr td {
+        border-style: solid;
+        text-align: center;
+    }
+</style>
+
+</html>

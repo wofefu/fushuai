@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理系统</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-router.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .a {
+            margin: 25px auto;
+            font-size: 30px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        table {
+            margin: 25px auto;
+            border: 1px solid #000;
+            border-collapse: collapse; /*设置表格的边框是否被合并为一个单一的边框*/
+            border-spacing: 0; /*设置相邻单元格的边框间的距离*/
+        }
+
+        tr {
+            width: 300px;
+            height: 50px;
+            line-height: 50px;
+            border-bottom: 1px solid #000;
+            background-color: pink;
+        }
+
+        td, th {
+            width: 99px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-right: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<div id="vue-area">
+    <div class="a">学员信息列表</div>
+    <div id="choice">
+        <select v-model="pageMax" @change="addPageMax">
+            <option value="2">选择展示数(默认为2)</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+        </select>
+        <select v-model="classId" @change="selectByClass(pageIndex,pageMax)">
+            <option value="0">根据班级筛选</option>
+            <option v-for="(item,indexInClass) in classes" :value="item.id">
+                {{item.cname}}
+            </option>
+        </select>
+    </div>
+    <table>
+        <tr>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>性别</td>
+            <td>生日</td>
+            <td>电话</td>
+            <td>E-mail</td>
+            <td>班级</td>
+        </tr>
+        <tr v-for="(item,index) in Studentclasses" :key="index">
+            <td v-if="index%2===0" @click="inperson(item.id,index)">{{item.id}}</td>
+            <td v-if="index%2===0">{{item.sname}}</td>
+            <td v-if="index%2===0">{{item.gender}}</td>
+            <td v-if="index%2===0">{{item.birthday}}</td>
+            <td v-if="index%2===0">{{item.telephone}}</td>
+            <td v-if="index%2===0">{{item.email}}</td>
+            <td v-if="index%2===0">{{item.cname}}</td>
+
+            <td v-if="index%2!==0" style="background-color: aquamarine" @click="inperson(item.id,index)">{{item.id}}
+            </td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.sname}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.gender}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.birthday}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.telephone}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.email}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.cname}}</td>
+        </tr>
+    </table>
+    <div id="pagedown">
+        <button v-show="!pages.isFirstPage" @click="pageUp">上一页</button>
+        共 {{pages.pages}} 页,当前第 {{pages.pageNum}} 页
+        <button v-show="!pages.isLastPage" @click="pageDown">下一页</button>
+    </div>
+</div>
+</body>
+<script>
+
+    let app = new Vue({
+        el: "#vue-area",
+        data: {
+            classes: [],
+            Studentclasses: [],
+            pages: '',
+            pageIndex: 0,
+            pageMax: 2,
+            classId: 0
+        },
+        methods: {
+            loadData: function (index, size) {
+                let self = this;
+                $.ajax({
+                    url: "alldetail",
+                    type: "get",
+                    data: {
+                        pageIndex: index,
+                        pageMax: size
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        self.pages = data;
+                        self.Studentclasses = data.list;
+                    }
+                })
+            },
+            getClasses: function () {
+                self = this;
+                $.ajax({
+                    url: "allclass",
+                    type: 'get',
+                    success(data) {
+                        self.classes = data;
+                    }
+                })
+            },
+            selectByClass(index, size) {
+                self = this;
+                console.log(self.classId)
+                if (self.classId==='0'){
+                    self.loadData(self.pageIndex, self.pageMax);
+                    console.log("进来了")
+                    return;
+                }
+                console.log("跳出来")
+                $.ajax({
+                    url:'selectByclassname',
+                    type: 'get',
+                    data: {
+                        pageIndex:index,
+                        pageMax:size,
+                        classId: self.classId
+                    },
+                    success(data){
+                        self.pages=data;
+                        self.Studentclasses=data.list;
+                    }
+                })
+            },
+            addPageMax() {
+                self = this;
+                if (self.classId===0){
+                    self.loadData(self.pageIndex, self.pageMax);
+                }else {
+                    self.selectByClass(self.pageIndex,self.pageMax);
+                }
+            },
+            pageUp() {
+                if (self.classId === 0) {
+                    self.loadData(self.pages.prePage, self.pageMax)
+                } else {
+                    self.selectByClass(self.pages.prePage, self.pageMax)
+                }
+            },
+            pageDown() {
+                if (self.classId === 0) {
+                    self.loadData(self.pages.nextPage, self.pageMax)
+                } else {
+                    self.selectByClass(self.pages.nextPage, self.pageMax)
+                }
+            },
+            inperson: function (id) {
+                location.href = "Student/" + id;
+            }
+        },
+        mounted: function () {
+            this.getClasses()
+            this.loadData(this.pageIndex, this.pageMax);
+        }
+    })
+
+</script>
+</html>

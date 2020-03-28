@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fushuai.dao.StudentMapper">
+    <resultMap id="BaseResultMap" type="fushuai.entity.Student">
+        <!--@mbg.generated-->
+        <!--@Table student-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="sName" jdbcType="VARCHAR" property="sname"/>
+        <result column="birthday" jdbcType="DATE" property="birthday"/>
+        <result column="gender" jdbcType="VARCHAR" property="gender"/>
+        <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="classId" jdbcType="BIGINT" property="classid"/>
+    </resultMap>
+    <resultMap id="BaseResultMaps" type="fushuai.dto.StudentClass" autoMapping="true">
+        <result column="c_id" property="id"/>
+        <collection property="students" ofType="fushuai.entity.Student" autoMapping="true">
+            <result column="s_id" property="id"/>
+        </collection>
+    </resultMap>
+    <resultMap id="BaseResultMaps1" type="fushuai.dto.StudentDetail" autoMapping="true">
+        <result column="s_id" property="id"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, sName, birthday, gender, telephone, email, classId
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from student
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="fushuai.entity.Student" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into student (sName, birthday, gender,
+        telephone, email, classId
+        )
+        values (#{sname,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{gender,jdbcType=VARCHAR},
+        #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{classid,jdbcType=BIGINT}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="fushuai.entity.Student"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sname != null">
+                sName,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="classid != null">
+                classId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sname != null">
+                #{sname,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="classid != null">
+                #{classid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="fushuai.entity.Student">
+        <!--@mbg.generated-->
+        update student
+        <set>
+            <if test="sname != null">
+                sName = #{sname,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="classid != null">
+                classId = #{classid,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="fushuai.entity.Student">
+        <!--@mbg.generated-->
+        update student
+        set sName = #{sname,jdbcType=VARCHAR},
+        birthday = #{birthday,jdbcType=DATE},
+        gender = #{gender,jdbcType=VARCHAR},
+        telephone = #{telephone,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        classId = #{classid,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectall" resultMap="BaseResultMaps">
+        select classes.id as c_id,
+               cName,
+               s.id       as s_id,
+               sName,
+               birthday,
+               gender,
+               telephone,
+               email,
+               classId
+        from classes
+                 inner join student s on classes.id = s.classId
+        order by s.id asc;
+    </select>
+    <select id="selectallbyId" resultMap="BaseResultMaps1">
+        select classes.id as c_id,
+               cName,
+               s.id       as s_id,
+               sName,
+               birthday,
+               gender,
+               telephone,
+               email,
+               classId
+        from classes
+                 inner join student s on classes.id = s.classId
+        where s.id = #{id};
+    </select>
+    <select id="selectallDetail" resultMap="BaseResultMaps1">
+        select cName,
+               s.id as s_id,
+               sName,
+               birthday,
+               gender,
+               telephone,
+               email,
+               classId classid
+        from classes
+                 inner join student s on classes.id = s.classId
+    </select>
+    <select id="selectByclassname" resultMap="BaseResultMaps1">
+        select cName,
+               s.id as s_id,
+               sName,
+               birthday,
+               gender,
+               telephone,
+               email,
+               classId classid
+        from classes
+                 inner join student s on classes.id = s.classId
+        where classes.id=#{cid,jdbcType=INTEGER};
+    </select>
+</mapper>
