@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 @Configuration //表示该类提供的是配置信息，同时也会注册为ioc容器中的bean
 @PropertySource("classpath:dataSource.properties")//引入外部properties文件
-@ComponentScan(basePackages = {"com.kd27.ssm1.service"})//spring扫包
+@ComponentScan(basePackages = {"com.kd27.ssm1.service.impl"})//spring扫包
 @MapperScan(basePackages = {"com.kd27.ssm1.dao"})
 @EnableTransactionManagement
 @EnableAspectJAutoProxy

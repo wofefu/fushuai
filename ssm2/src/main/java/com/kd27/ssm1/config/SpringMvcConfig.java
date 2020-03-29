@@ -24,6 +24,10 @@ public class SpringMvcConfig implements WebMvcConfigurer{
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+            /*fastJson版本高带来的问题的解决方案
+        List<MediaType> mediaTypes = new ArrayList<>();
+        mediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+        fastJsonHttpMessageConverter.setSupportedMediaTypes(mediaTypes);*/
         converters.add(fastJsonHttpMessageConverter);
     }
 
