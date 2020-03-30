@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建详细信息展示页面</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-router.js"></script>
+</head>
+<body>
+<span id="userid" style="display: none">
+    ${id}
+</span>
+<div id="vue-area">
+    <div class="title">常见问题检索</div>
+    <p> 分类：{{faqs.cname}} </p>
+    <p>添加时间： {{faqs.createdate}}</p>
+    <p>标题： {{faqs.title}}</p>
+    <div class="title1">内容：
+        <div contenteditable="true" class="title1">{{faqs.content}}</div>
+    </div>
+    <button @click="back()">返回</button>
+</div>
+</body>
+<script>
+    let uid = $("#userid").text();
+    let app = new Vue({
+        el: "#vue-area",
+        data: {
+            faqs: [],
+        },
+        methods: {
+            getOnequestion: function () {
+                self = this;
+                $.ajax({
+                    url: 'http://localhost:8090/getOnequestion/' + uid,
+                    type: 'get',
+                    success: function (res) {
+                        self.faqs = res;
+                    }
+                })
+            },
+            back: function () {
+                location.href = "http://localhost:8090/question";
+            }
+        },
+        mounted: function () {
+            this.getOnequestion();
+        }
+    })
+</script>
+<style>
+    .title {
+        margin: 25px auto;
+        text-align: center;
+        font-size: 32px;
+        font-weight: 900;
+    }
+
+    .title1 {
+        margin: 25px auto;
+        text-align: center;
+    }
+
+    p {
+        margin: 25px auto;
+        text-align: center;
+    }
+    button{
+        margin-left: 40%;
+    }
+</style>
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fushuai.dao.FaqsMapper">
+    <resultMap id="BaseResultMap" type="com.fushuai.entity.Faqs">
+        <!--@mbg.generated-->
+        <!--@Table faqs-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="createDate" jdbcType="DATE" property="createdate"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="classId" jdbcType="BIGINT" property="classid"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, title, createDate, content, classId
+    </sql>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.fushuai.entity.Faqs"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into faqs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="createdate != null">
+                createDate,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="classid != null">
+                classId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="createdate != null">
+                #{createdate,jdbcType=DATE},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="classid != null">
+                #{classid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.fushuai.entity.Faqs">
+        <!--@mbg.generated-->
+        update faqs
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="createdate != null">
+                createDate = #{createdate,jdbcType=DATE},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="classid != null">
+                classId = #{classid,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <resultMap id="BaseResultMap1" type="com.fushuai.entity.Faqs" autoMapping="true">
+        <!--@mbg.generated-->
+        <!--@Table faqs-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+    </resultMap>
+    <select id="getall" resultMap="BaseResultMap1">
+        select faqs.id, faqs.title, faqs.createDate, faqs.content, faqs.classId, c.cname
+        from faqs
+                 inner join classes c on faqs.classId = c.id;
+    </select>
+    <select id="getone" resultType="com.fushuai.entity.Faqs">
+        select faqs.id, faqs.title, faqs.createDate, faqs.content, faqs.classId, c.cname
+        from faqs
+                 inner join classes c on faqs.classId = c.id
+        where c.id=#{id,jdbcType=BIGINT};
+    </select>
+    <select id="getalllike" resultMap="BaseResultMap1">
+        select faqs.id, faqs.title, faqs.createDate, faqs.content, faqs.classId, c.cname
+        from faqs
+                 inner join classes c on faqs.classId = c.id
+        where title like #{title,jdbcType=VARCHAR};
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="faqs.id">
+        insert into faqs( title, createDate, content, classId) VALUES (#{faqs.title},NOW(),#{faqs.content},#{faqs.classid})
+    </insert>
+</mapper>

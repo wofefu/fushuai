@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>常见问题添加</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-router.js"></script>
+</head>
+<body>
+<div id="vue-area">
+    <form id="form">
+        <table>
+            <tr>
+                <td>分类</td>
+                <td>
+                    <select v-model="question.classid">
+                        <option value="0">--请选择分类--</option>
+                        <option v-for="(item,indexInClass) in allclass" :value="item.id">
+                            {{item.cname}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>标题</td>
+                <td><input type="text" v-model="question.title"></td>
+            </tr>
+            <tr>
+                <td>内容</td>
+                <td>
+                    <input type="text" v-model="question.content">
+                </td>
+            </tr>
+            <tr>
+        </table>
+        <button type="button" @click="savequestion()">保存</button>
+    </form>
+    <button @click="back()">放弃</button>
+</div>
+</body>
+<script>
+    let app = new Vue({
+        el: "#vue-area",
+        data: {
+            allclass: [],
+            question: {
+                title: '',
+                content: '',
+                classid: 0
+            }
+        },
+        methods: {
+            back: function () {
+                location.href = "http://localhost:8090/question";
+            },
+            getClass: function () {
+                self = this
+                $.ajax({
+                    url: "http://localhost:8090//allclass",
+                    type: 'get',
+                    success: function (data) {
+                        self.allclass = data;
+                        console.log(data)
+                    }
+                })
+            },
+            checka() {
+               if (this.question.classid===0){
+                   alert("请选择分类");
+                   return false;
+               }
+               if (this.question.title===''||this.question.title===null){
+                   alert("标题名不能为空");
+                   return false;
+               }
+               if (this.question.content===''||this.question.content===null){
+                   alert("内容不能为空");
+                   return false;
+               }
+               return true;
+            },
+            savequestion() {
+                self = this
+                if (self.checka()) {
+                    $.ajax({
+                        url: "http://localhost:8090/savequestion",
+                        type: "post",
+                        contentType: 'application/json',
+                        data: JSON.stringify(self.question),
+                        success: function (data) {
+                            console.log(data)
+                            if (data > 0) {
+                                alert("保存成功")
+                            } else {
+                                alert("保存失败")
+                            }
+                        }
+                    })
+                }
+            }
+        },
+        mounted: function () {
+            this.getClass();
+        }
+    })
+</script>
+</html>

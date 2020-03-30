@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>常见问题主页</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-router.js"></script>
+</head>
+<body>
+<div id="vue-area">
+    <div id="title1">常见问题检索</div>
+    <div class="title2">
+        请输入关键字：<input type="text" v-model="title">
+        <button @click="selectliketitle()">搜索</button>
+        <a href="add">添加常见问题</a>
+    </div>
+    <div v-show="!flag">
+        <p>没有找到和“{{title}}”想关的内容</p>
+        <p>请修改关键字后重试。</p>
+    </div>
+    <table v-show="flag">
+        <tr>
+            <td>编号</td>
+            <td>标题</td>
+            <td>分类</td>
+            <td>创建时间</td>
+        </tr>
+        <tr v-for="(item,index) in questions" :key="index">
+            <td v-if="index%2===0">{{item.id}}</td>
+            <td v-if="index%2===0" @click="inperson(item.id,index)">{{item.title}}</td>
+            <td v-if="index%2===0">{{item.cname}}</td>
+            <td v-if="index%2===0">{{item.createdate}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.id}}
+            </td>
+            <td v-if="index%2!==0" style="background-color: aquamarine" @click="inperson(item.id,index)">
+                {{item.title}}
+            </td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.cname}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.createdate}}</td>
+        </tr>
+    </table>
+</div>
+</body>
+<script>
+    let app = new Vue({
+        el: "#vue-area",
+        data: {
+            questions: [],
+            title: '',
+            flag: true
+        },
+        methods: {
+
+            getquestion: function () {
+                self = this;
+                $.ajax({
+                    url: 'getquestions',
+                    type: 'get',
+                    success: function (res) {
+                        console.log(res);
+                        self.questions = res;
+                    }
+                })
+            },
+            selectliketitle: function () {
+                self = this;
+                $.ajax({
+                    url: 'selectliketitle/' + self.title,
+                    type: 'get',
+                    success: function (res) {
+                        console.log(res);
+                        if (res.length > 0) {
+                            self.flag=true;
+                            self.questions = res;
+                        } else {
+                            self.flag = false;
+                        }
+                    }
+                })
+            },
+            inperson: function (id, index) {
+                location.href = "detail/" + id;
+            }
+        },
+        mounted: function () {
+            this.getquestion();
+        }
+    })
+</script>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .a {
+        margin: 25px auto;
+        font-size: 30px;
+        font-weight: 900;
+        text-align: center;
+    }
+
+    table {
+        margin: 25px auto;
+        border: 1px solid #000;
+        border-collapse: collapse; /*设置表格的边框是否被合并为一个单一的边框*/
+        border-spacing: 0; /*设置相邻单元格的边框间的距离*/
+    }
+
+    tr {
+        width: 300px;
+        height: 50px;
+        line-height: 50px;
+        border-bottom: 1px solid #000;
+    }
+
+    td, th {
+        width: 99px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        border-right: 1px solid #000;
+    }
+
+    #title1 {
+        margin: 25px auto;
+        text-align: center;
+        font-size: 32px;
+        font-weight: 900;
+    }
+
+    .title2 {
+        margin: 25px auto;
+        text-align: center;
+    }
+    p{
+        margin: 25px auto;
+        text-align: center;
+        font-size: 32px;
+        font-weight: 900;
+    }
+</style>
+</html>
