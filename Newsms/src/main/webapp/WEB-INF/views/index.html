@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻列表显示</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-router.js"></script>
+</head>
+<body>
+<div id="vue-area">
+    <div id="choice">
+        <select v-model="classId">
+            <option value="0">全部</option>
+            <option v-for="(item,indexInClass) in classes" :value="item.id">
+                {{item.name}}
+            </option>
+        </select>
+    </div>
+    <div class="title2">
+        新闻标题：<input type="text" v-model="title">
+        <button @click="selectliketitle()">搜索</button>
+    </div>
+    <div class="a">新闻列表显示</div>
+    <table>
+        <tr>
+            <td>新闻编号</td>
+            <td>新闻标题</td>
+            <td>新闻摘要</td>
+            <td>作者</td>
+            <td>创建时间</td>
+            <td>操作</td>
+        </tr>
+        <tr v-for="(item,index) in newsdetails" :key="index">
+            <td v-if="index%2===0">{{item.id}}</td>
+            <td v-if="index%2===0">{{item.title}}</td>
+            <td v-if="index%2===0">{{item.summary}}</td>
+            <td v-if="index%2===0">{{item.author}}</td>
+            <td v-if="index%2===0">{{item.createdate}}</td>
+            <td v-if="index%2===0" @click="updateNewdetail(item.id,index)">修改</td>
+
+
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.id}}
+            </td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.title}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.summary}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.author}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine">{{item.createdate}}</td>
+            <td v-if="index%2!==0" style="background-color: aquamarine" @click="updateNewdetail(item.id,index)">修改</td>
+        </tr>
+    </table>
+</div>
+</body>
+<script>
+    let app = new Vue({
+        el: "#vue-area",
+        data: {
+            classes: [],
+            newsdetails: [],
+            title: '',
+            classId: 0
+        },
+        methods: {
+            loadData: function (index, size) {
+                let self = this;
+                $.ajax({
+                    url: "findDetailall",
+                    type: "get",
+                    success: function (data) {
+                        self.newsdetails = data;
+                    }
+                })
+            },
+            getClasses: function () {
+                self = this;
+                $.ajax({
+                    url: "findCateall",
+                    type: 'get',
+                    success(data) {
+                        self.classes = data;
+                    }
+                })
+            },
+            selectliketitle: function () {
+                self = this;
+                console.log(self.classId)
+                $.ajax({
+                    url: 'selectbytitleandname/' + self.title + '/' + self.classId,
+                    type: 'get',
+                    success: function (res) {
+                        console.log(res)
+                        self.newsdetails = res;
+                    }
+                })
+            },
+            updateNewdetail: function (id, index) {
+                location.href = "modify/" + id;
+            }
+        },
+        mounted: function () {
+            this.getClasses()
+            this.loadData();
+        }
+    })
+</script>
+</html>

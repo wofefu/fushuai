@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改新闻</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-router.js"></script>
+</head>
+<body>
+<span id="detailcid" style="display: none">
+    ${did}
+</span>
+<div class="a">更新新闻内容</div>
+<div id="vue-area">
+
+        <table>
+            <tr>
+                <td>新闻编号</td>
+                <td><input type="text" v-model="newsdetail.id"></td>
+            </tr>
+            <tr>
+                <td>新闻分类</td>
+                <td>
+                    <select v-model="newsdetail.categoryid">
+                        <option v-for="(item,indexInClass) in classes" :value="item.id">
+                            {{item.name}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>新闻标题</td>
+                <td>
+                    <input type="text" v-model="newsdetail.title">
+                </td>
+            </tr>
+            <tr>
+                <td>新闻摘要</td>
+                <td>
+                    <input type="text" v-model="newsdetail.summary">
+                </td>
+            </tr>
+            <tr>
+                <td>作者</td>
+                <td><input type="text" v-model="newsdetail.author"></td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" @click="subModify()">提交</button>
+                </td>
+                <td>
+                    <button @click="back()">返回</button>
+                </td>
+            </tr>
+        </table>
+
+</div>
+</body>
+<script>
+    let cid = $("#detailcid").text();
+    let app = new Vue({
+        el: "#vue-area",
+        data: {
+            newsdetail: [],
+            classes: []
+        },
+        methods: {
+            back: function () {
+                location.href = "http://localhost:8080/index";
+            },
+            loadData: function () {
+                self = this;
+                $.ajax({
+                    url: 'http://localhost:8080/findbycid/' + cid,
+                    type: 'get',
+                    success: function (data) {
+                        self.newsdetail = data;
+                        console.log(data);
+                    }
+                })
+            },
+            getClass: function () {
+                self = this
+                $.ajax({
+                    url: "http://localhost:8080/findCateall",
+                    type: 'get',
+                    success: function (data) {
+                        self.classes = data;
+                        console.log(data)
+                    }
+                })
+            },
+            checka() {
+                console.log(this.newsdetail.title)
+                if (this.newsdetail.title.length<=0){
+                    alert("新闻标题不能为空")
+                    return false;
+                }
+                return true;
+            },
+            subModify() {
+                self = this
+                if (self.checka()) {
+                    $.ajax({
+                        url: "http://localhost:8080/updatebycid",
+                        type: "post",
+                        contentType: 'application/json',
+                        data: JSON.stringify(self.newsdetail),
+                        success: function (data) {
+                            console.log(data)
+                            if (data > 0) {
+                                alert("修改成功")
+                            } else {
+                                alert("修改失败")
+                            }
+                        }
+                    })
+                }
+            }
+        },
+        mounted: function () {
+            this.loadData();
+            this.getClass();
+        }
+    })
+</script>
+</html>
